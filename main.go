@@ -23,7 +23,7 @@ func (as authors) String() string {
 }
 
 func print(books []book) {
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 	format := "%v\t%v\t%v\n"
 	fmt.Fprintf(w, format, "Title", "Authors", "Year")
 	fmt.Fprintf(w, format, "-----", "-------", "----")
