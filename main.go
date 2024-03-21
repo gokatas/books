@@ -11,48 +11,40 @@ import (
 )
 
 type book struct {
-	Title   string
-	Authors authors
-	Year    int // when published
+	title string
+	authors
+	year int
 }
 
 type authors []string
 
-func (a authors) String() string {
-	return strings.Join(a, ", ")
+func (as authors) String() string {
+	return strings.Join(as, ", ")
 }
 
-// It's not necessary to use a pointer to book. However when swapping many
-// elements it might be faster this way since pointer is always only a machine
-// word in size (usually 32 or 64 bits). See reisinge.net/notes/go/pointers.
-var books = []*book{
-	{"The Lord of the Rings", authors{"Tolkien"}, 1954},
-	{"The Phoenix Project", authors{"Kim", "Behr", "Spafford"}, 2013},
-	{"The Go Programming Language", authors{"Kernighan", "Donovan"}, 2015},
+func print(books []book) {
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+	format := "%v\t%v\t%v\n"
+	fmt.Fprintf(w, format, "Title", "Authors", "Year")
+	fmt.Fprintf(w, format, "-----", "-------", "----")
+	for _, book := range books {
+		fmt.Fprintf(w, format, book.title, book.authors, book.year)
+	}
+	w.Flush()
 }
 
-// To sort a collection of elements you need to define a type for this
-// collection. This type needs to have the methods that satisfy the
-// sort.Interface interface type.
-type byYear []*book
+type byYear []book
 
 func (x byYear) Len() int           { return len(x) }
-func (x byYear) Less(i, j int) bool { return x[i].Year < x[j].Year }
+func (x byYear) Less(i, j int) bool { return x[i].year < x[j].year }
 func (x byYear) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
 
 func main() {
-	sort.Sort(sort.Reverse(byYear(books)))
-	printBooks(books)
-}
-
-func printBooks(books []*book) {
-	const format = "%v\t%v\t%v\n"
-	tw := new(tabwriter.Writer).Init(os.Stdout, 0, 8, 2, ' ', 0)
-	fmt.Fprintf(tw, format, "Title", "Authors", "Year")
-	fmt.Fprintf(tw, format, "-----", "-------", "----")
-	for _, b := range books {
-		// you don't have to derefence here like (*b).title
-		fmt.Fprintf(tw, format, b.Title, b.Authors, b.Year)
+	var books = []book{ // []*book might be faster with many elements
+		{"The Lord of the Rings", authors{"Tolkien"}, 1954},
+		{"The Phoenix Project", authors{"Kim", "Behr", "Spafford"}, 2013},
+		{"The Go Programming Language", authors{"Kernighan", "Donovan"}, 2015},
 	}
-	tw.Flush() // calculate column widths and print table
+	sort.Sort(byYear(books))
+	print(books)
 }
