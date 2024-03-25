@@ -1,5 +1,5 @@
-// Books sorts a collection of books. Based on
-// github.com/adonovan/gopl.io/blob/master/ch7/sorting.
+// Books sorts and prints a collection of books. Based on
+// https://github.com/adonovan/gopl.io/blob/master/ch7/sorting.
 package main
 
 import (
@@ -22,7 +22,7 @@ func (as authors) String() string {
 	return strings.Join(as, ", ")
 }
 
-func print(books []book) {
+func printBooks(books []book) {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 	format := "%v\t%v\t%v\n"
 	fmt.Fprintf(w, format, "Title", "Authors", "Year")
@@ -46,5 +46,5 @@ func main() {
 		{"The Go Programming Language", authors{"Kernighan", "Donovan"}, 2015},
 	}
 	sort.Sort(byYear(books))
-	print(books)
+	printBooks(books)
 }
