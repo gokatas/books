@@ -23,14 +23,14 @@ func (as authors) String() string {
 }
 
 func printBooks(books []book) {
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
+	tw := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 	format := "%v\t%v\t%v\n"
-	fmt.Fprintf(w, format, "Title", "Authors", "Year")
-	fmt.Fprintf(w, format, "-----", "-------", "----")
+	fmt.Fprintf(tw, format, "Title", "Authors", "Year")
+	fmt.Fprintf(tw, format, "-----", "-------", "----")
 	for _, book := range books {
-		fmt.Fprintf(w, format, book.title, book.authors, book.year)
+		fmt.Fprintf(tw, format, book.title, book.authors, book.year)
 	}
-	w.Flush()
+	tw.Flush()
 }
 
 type byYear []book
