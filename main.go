@@ -45,6 +45,15 @@ func main() {
 		{"The Phoenix Project", Authors{"Kim", "Behr", "Spafford"}, 2013},
 		{"The Lord of the Rings", Authors{"Tolkien"}, 1954},
 	}
+
 	sort.Sort(byYear(books))
+
+	// The other way is to use sort.Slice with a custom Less function,
+	// which can be provided as a closure. In this case no methods are
+	// needed. Here we re-sort in reverse order.
+	sort.Slice(books, func(i, j int) bool {
+		return books[i].Year > books[j].Year
+	})
+
 	printBooks(books)
 }
