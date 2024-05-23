@@ -1,5 +1,7 @@
-// Books sorts and prints a collection of books. Based on
-// https://github.com/adonovan/gopl.io/blob/master/ch7/sorting.
+// Books sorts and prints a collection of books.
+// For more see
+//   - https://pkg.go.dev/sort#pkg-examples
+//   - https://github.com/adonovan/gopl.io/blob/master/ch7/sorting
 package main
 
 import (
@@ -33,27 +35,14 @@ func printBooks(books []Book) {
 	tw.Flush()
 }
 
-type byYear []Book
-
-func (x byYear) Len() int           { return len(x) }
-func (x byYear) Less(i, j int) bool { return x[i].Year < x[j].Year }
-func (x byYear) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
-
 func main() {
-	var books = []Book{ // []*book might be faster with many elements
+	books := []Book{
+		{"The Lord of The Rings", Authors{"Tolkien"}, 1954},
 		{"The Go Programming Language", Authors{"Kernighan", "Donovan"}, 2015},
 		{"The Phoenix Project", Authors{"Kim", "Behr", "Spafford"}, 2013},
-		{"The Lord of the Rings", Authors{"Tolkien"}, 1954},
 	}
-
-	sort.Sort(byYear(books))
-
-	// The other way is to use sort.Slice with a custom Less function,
-	// which can be provided as a closure. In this case no methods are
-	// needed. Here we re-sort in reverse order.
 	sort.Slice(books, func(i, j int) bool {
-		return books[i].Year > books[j].Year
+		return books[i].Year < books[j].Year
 	})
-
 	printBooks(books)
 }
