@@ -1,4 +1,4 @@
-// Books sorts and prints a collection of books.
+// Sortbooks sorts and prints a collection of books.
 // For more see
 //   - https://pkg.go.dev/sort#pkg-examples
 //   - https://github.com/adonovan/gopl.io/blob/master/ch7/sorting
