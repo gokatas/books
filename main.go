@@ -10,12 +10,13 @@ import (
 	"sort"
 	"strings"
 	"text/tabwriter"
+	"time"
 )
 
 type Book struct {
 	Title string
 	Authors
-	Year int
+	Age int
 }
 
 type Authors []string
@@ -24,25 +25,30 @@ func (as Authors) String() string {
 	return strings.Join(as, ", ")
 }
 
+func age(year int) (years int) {
+	currentYear := time.Now().Year()
+	return currentYear - year
+}
+
 func printBooks(books []Book) {
 	tw := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 	format := "%v\t%v\t%v\n"
-	fmt.Fprintf(tw, format, "Title", "Authors", "Year")
-	fmt.Fprintf(tw, format, "-----", "-------", "----")
+	fmt.Fprintf(tw, format, "Age", "Title", "Authors")
+	fmt.Fprintf(tw, format, "---", "-----", "-------")
 	for _, book := range books {
-		fmt.Fprintf(tw, format, book.Title, book.Authors, book.Year)
+		fmt.Fprintf(tw, format, book.Age, book.Title, book.Authors)
 	}
 	tw.Flush()
 }
 
 func main() {
 	books := []Book{
-		{"The Lord of The Rings", Authors{"Tolkien"}, 1954},
-		{"The Go Programming Language", Authors{"Kernighan", "Donovan"}, 2015},
-		{"The Phoenix Project", Authors{"Kim", "Behr", "Spafford"}, 2013},
+		{"The Lord of The Rings", Authors{"Tolkien"}, age(1954)},
+		{"The Go Programming Language", Authors{"Kernighan", "Donovan"}, age(2015)},
+		{"The Phoenix Project", Authors{"Kim", "Behr", "Spafford"}, age(2013)},
 	}
 	sort.Slice(books, func(i, j int) bool {
-		return books[i].Year < books[j].Year
+		return books[i].Age < books[j].Age
 	})
 	printBooks(books)
 }
