@@ -25,9 +25,9 @@ func (as Authors) String() string {
 	return strings.Join(as, ", ")
 }
 
-func age(year int) (years int) {
+func age(yearBorn int) (yearsOld int) {
 	currentYear := time.Now().Year()
-	return currentYear - year
+	return currentYear - yearBorn
 }
 
 func printBooks(books []Book) {
