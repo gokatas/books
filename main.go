@@ -38,7 +38,7 @@ func (authors Authors) String() string {
 func main() {
 	books := []Book{
 		{Authors{"Tolkien"}, "The Lord of the Rings", 1954},
-		{Authors{"Kernighan", "Donovan"}, "The Go Programming Languages", 2015},
+		{Authors{"Kernighan", "Donovan"}, "The Go Programming Language", 2015},
 		{Authors{"Kim", "Behr", "Spafford"}, "The Phoenix Project", 2013},
 	}
 	sort.Slice(books, func(i, j int) bool {
